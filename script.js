@@ -105,5 +105,18 @@ async function creatFiche(formattedDate, city, country) {
 
 
 
-// Appel de la fonction principale
+// zoomer chaque div
+document.addEventListener('DOMContentLoaded', function () {
+    var divs = document.querySelectorAll('.ficheSalat div');
+
+    divs.forEach(function (div) {
+      div.addEventListener('mouseenter', function () {
+        this.classList.add('zoomed');
+      });
+
+      div.addEventListener('mouseleave', function () {
+        this.classList.remove('zoomed');
+      });
+    });
+  });
 
