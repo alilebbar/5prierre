@@ -23,6 +23,23 @@ function getGeolocation() {
         }
     });
 }
+/*async function getGeolocation() {
+   
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    return({ latitude, longitude });
+                },
+                (error) => {
+                    return(`Erreur de géolocalisation : ${error.message}`);
+                }
+            );
+        } else {
+           return("La géolocalisation n'est pas prise en charge par ce navigateur.");
+        }
+    
+}*/
 // Fonction pour obtenir la localisation actuelle et appeler l'API de géocodage inversé
 function getCountryFromCoordinates(latitude, longitude) {
     return new Promise((resolve, reject) => {
@@ -83,6 +100,7 @@ async function creatFiche(formattedDate, city, country) {
     var api_url = 'https://api.aladhan.com/v1/timingsByAddress/' + formattedDate + '?address=' + country + ',' + city;
 
     try {
+        loader(true)
         const response = await fetch(api_url);
         const prayerTimes = await response.json();
 
@@ -100,6 +118,8 @@ async function creatFiche(formattedDate, city, country) {
         let ishae = document.querySelector(".ishae p").innerHTML = `${pishae}`;
     } catch (error) {
         console.log('Erreur lors de la requête API :', error);
+    }finally{
+        loader(false)
     }
 }
 
@@ -119,4 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
+
+  function loader(show= true){
+    if (show) {
+        document.getElementById("loader").style.visibility = "visible"
+    } else {
+        document.getElementById("loader").style.visibility = "hidden"
+    }
+  }
 
